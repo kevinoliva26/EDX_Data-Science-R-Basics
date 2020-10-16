@@ -1,0 +1,18 @@
+---
+title: "Getting Started"
+author: "kevinoliva26"
+date: "10/16/2020"
+output: html_document
+---
+
+Normalmente se comienza cargando las librerias
+```{r}
+library(tidyverse)
+library(dslabs)
+data(murders)
+
+murders %>%
+    ggplot(aes(population, total, label=abb, color=region)) +
+    geom_label()
+```
+
