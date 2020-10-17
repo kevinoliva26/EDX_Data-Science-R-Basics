@@ -6,6 +6,7 @@ output: html_document
 ---
 
 Normalmente se comienza cargando las librerias
+Ejemplo de una grafica
 ```{r}
 library(tidyverse)
 library(dslabs)
@@ -14,5 +15,74 @@ data(murders)
 murders %>%
     ggplot(aes(population, total, label=abb, color=region)) +
     geom_label()
+```
+
+To define a variable, we may use the assignment symbol, <-
+```{r}
+# assigning values to variables
+a <-2
+b <--1
+c <--4
+
+# solving the quadratic equation
+(-b + sqrt(b^2 - 4*a*c))/(2*a)
+(-b - sqrt(b^2 - 4*a*c))/(2*a)
+```
+
+The ls() function shows the names of the objects saved in your workspace.
+```{r}
+ls()
+```
+
+To access help files, we may use the help function, help(function_name), or write the question mark followed by the function name, ?function_name.
+
+The args() function also shows the arguments a function needs.
+
+To specify arguments, we use the equals sign. 
+
+The function class() helps us determine the type of an object.
+
+To access data from columns of a data frame, we use the dollar sign symbol, $, which is called the accessor.
+
+Factors are useful for storing categorical data, and are more memory efficient than storing characters.
+```{r}
+# loading the dslabs package and the murders dataset
+library(dslabs)
+data(murders)
+
+# determining that the murders dataset is of the "data frame" class
+class(murders)
+# finding out more about the structure of the object
+str(murders)
+# showing the first 6 lines of the dataset
+head(murders)
+
+# using the accessor operator to obtain the population column
+murders$population
+# displaying the variable names in the murders dataset
+names(murders)
+# determining how many entries are in a vector
+pop <- murders$population
+length(pop)
+# vectors can be of class numeric and character
+class(pop)
+class(murders$state)
+
+# logical vectors are either TRUE or FALSE
+z <- 3 == 2
+z
+class(z)
+
+# factors are another type of class
+class(murders$region)
+# obtaining the levels of a factor
+levels(murders$region)
+```
+
+
+The function table takes a vector as input and returns the frequency of each unique element in the vector.
+```{r}
+# Write one line of code to show the number of states per region
+table(murders$region)
 ```
 

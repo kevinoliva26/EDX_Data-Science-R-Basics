@@ -1,0 +1,127 @@
+---
+title: 'Section 3: Indexing, Data Wrangling, Plots'
+author: "kevinoliva26"
+date: "10/17/2020"
+output: html_document
+---
+
+## Indexing
+
+Using the function sum()on a logical vector returns the number of entries that are true.
+The logical operator *“&”* makes two logicals true only when they are both true.
+
+```{r}
+# defining murder rate as before
+murder_rate <- murders$total / murders$population * 100000
+# creating a logical vector that specifies if the murder rate in that state is less than or equal to 0.71
+index <- murder_rate <= 0.71
+# determining which states have murder rates less than or equal to 0.71
+murders$state[index]
+# calculating how many states have a murder rate less than or equal to 0.71
+sum(index)
+
+# creating the two logical vectors representing our conditions
+west <- murders$region == "West"
+safe <- murder_rate <= 1
+# defining an index and identifying states with both conditions true
+index <- safe & west
+murders$state[index]
+```
+
+The function *which()* gives us the entries of a logical vector that are true.
+The function *match()* looks for entries in a vector and returns the index needed to access them.
+We use the function *%in%* if we want to know whether or not each element of a first vector is in a second vector.
+
+
+```{r}
+x <- c(FALSE, TRUE, FALSE, TRUE, TRUE, FALSE)
+which(x)    # returns indices that are TRUE
+
+# to determine the murder rate in Massachusetts we may do the following
+index <- which(murders$state == "Massachusetts")
+index
+murder_rate[index]
+
+# to obtain the indices and subsequent murder rates of New York, Florida, Texas, we do:
+index <- match(c("New York", "Florida", "Texas"), murders$state)
+index
+murders$state[index]
+murder_rate[index]
+
+x <- c("a", "b", "c", "d", "e")
+y <- c("a", "d", "f")
+y %in% x
+
+# to see if Boston, Dakota, and Washington are states
+c("Boston", "Dakota", "Washington") %in% murders$state
+```
+
+## Basic Data Wrangling
+
+The *dplyr* package is introduced in the context of the tidyverse, a collection of R packages
+ 
+To change a data table by adding a new column, or changing an existing one, we use the *mutate()* function.
+To filter the data by subsetting rows, we use the function *filter()*.
+To subset the data by selecting specific columns, we use the *select()* function.
+We can perform a series of operations by sending the results of one function to another function using the pipe operator, *%>%*.
+
+```{r}
+
+# installing and loading the dplyr package
+library(dplyr)
+
+# adding a column with mutate
+library(dslabs)
+data("murders")
+murders <- mutate(murders, rate = total / population * 100000)
+
+# subsetting with filter
+filter(murders, rate <= 0.71)
+
+# selecting columns with select
+new_table <- select(murders, state, region, rate)
+
+# using the pipe
+murders %>% select(state, region, rate) %>% filter(rate <= 0.71)
+```
+
+We can use the *data.frame()* function to create data frames.
+Formerly, the *data.frame()* function turned characters into factors by default. To avoid this, we could utilize the stringsAsFactors argument and set it equal to false. As of R 4.0, it is no longer necessary to include the *stringsAsFactors* argument, because R no longer turns characters into factors by default.
+*nrow()* sirve para contar el numero de filas
+
+```{r}
+# creating a data frame with stringAsFactors = FALSE
+grades <- data.frame(names = c("John", "Juan", "Jean", "Yao"), 
+                     exam_1 = c(95, 80, 90, 85), 
+                     exam_2 = c(90, 85, 85, 90),
+                     stringsAsFactors = FALSE)
+```
+
+Ejemplo de %>%
+
+```{r}
+# Loading the libraries
+library(dplyr)
+data(murders)
+
+# Create new data frame called my_states (with specifications in the instructions)
+my_states <- murders %>% mutate(rate = total / population * 100000, rank = rank(-rate) ) %>% filter(region %in% c("Northeast","West") & rate <1) %>% select(state, rate, rank)
+my_states
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
