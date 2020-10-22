@@ -109,6 +109,7 @@ my_states <- murders %>% mutate(rate = total / population * 100000, rank = rank(
 my_states
 ```
 
+Prueba
 
 
 
