@@ -109,9 +109,101 @@ my_states <- murders %>% mutate(rate = total / population * 100000, rank = rank(
 my_states
 ```
 
-Prueba
+## Basic Plots
+
+We can create a simple scatterplot using the function *plot()*.
+Histograms are graphical summaries that give you a general overview of the types of values you have.  In R, they can be produced using the *hist()* function.
+Boxplots provide a more compact summary of a distribution than a histogram and are more useful for comparing distributions. They can be produced using the *boxplot()* function.
 
 
+```{r}
+# a simple scatterplot of total murders versus population
+library(dslabs)
+library(dplyr)
+data(murders)
+x <- murders$population /10^6
+y <- murders$total
+plot(x, y)
+
+# a histogram of murder rates
+murders <- mutate(murders, rate = total / population * 100000)
+hist(murders$rate)
+
+# boxplots of murder rates by region
+boxplot(rate~region, data = murders)
+```
+
+## Section 3 Assessment
+
+```{r}
+library(dslabs)
+library(dplyr)
+data(heights)
+options(digits = 3)    # report 3 significant digits for all answers
+names(heights)
+
+#How many individuals in the dataset are above average height?
+ind <- heights$height > mean(heights$height) 
+sum(ind)
+
+#How many individuals in the dataset are above average height and are female?
+above_avg_female <- filter(heights, height >= mean(height),sex=="Female")
+nrow(above_avg_female)
+
+#If you use mean() on a logical (TRUE/FALSE) vector, it returns the proportion of observations that are TRUE. What proportion of individuals in the dataset are female?
+mean(heights$sex == "Female")
+
+#Determine the minimum height in the heights dataset.
+min(heights$height)
+
+# Use the match() function to determine the index of the first individual with the minimum height.
+match(min(heights$height),heights$height)
+
+#Subset the sex column of the dataset by the index in 4b to determine the individual’s sex.
+heights$sex[min(heights$height)]
+
+#Determine the maximum height.
+max(heights$height)
+
+#Which integer values are between the maximum and minimum heights? For example, if the minimum height is 10.2 and the maximum height is 20.8, your answer should be x <- 11:20 to capture the integers in between those values. (If either the maximum or minimum height are integers, include those values too.)
+x <- min(heights$height):max(heights$height)
+x
+
+#How many of the integers in x are NOT heights in the dataset?
+sum(!x %in% heights$height)
+
+
+#Using the heights dataset, create a new column of heights in centimeters named ht_cm. Recall that 1 inch = 2.54 centimeters. Save the resulting dataset as heights2.
+heights2 <- mutate(heights, ht_cm = height * 2.54)
+head(heights2)
+heights2$ht_cm[18]
+
+#What is the mean height in centimeters?
+mean(heights2$ht_cm)
+
+#How many females are in the heights2 dataset?
+females <- filter(heights2, sex == "Female")
+nrow(females)
+
+#What is the mean height of the females in centimeters?
+mean(females$ht_cm)
+
+#The olive dataset in dslabs contains composition in percentage of eight fatty acids found in the lipid fraction of 572 Italian olive oils:
+library(dslabs)
+data(olive)
+head(olive)
+
+#Plot the percent palmitic acid versus palmitoleic acid in a scatterplot. What relationship do you see?
+plot(olive$palmitic,olive$palmitoleic)
+
+#Create a histogram of the percentage of eicosenoic acid in olive.
+hist(olive$eicosenoic)
+
+#Make a boxplot of palmitic acid percentage in olive with separate distributions for each region.
+#Which region has the highest median palmitic acid percentage?
+
+boxplot(palmitic~region,data=olive)
+```
 
 
 
