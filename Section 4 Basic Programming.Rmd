@@ -143,3 +143,55 @@ These are part of what we call the apply family.
 Other functions that are widely used are split, cut, quantile, reduce,
 identical, unique, and many others.
 
+##Section 4 Quiz
+
+Write an ifelse() statement that returns 1 if the sex is Female and 2 if the sex is Male.
+
+```{r}
+library(dslabs)
+data(heights)
+m_or_f <- ifelse(heights$sex=="Male",2,1)
+sum(m_or_f)
+```
+
+Write an ifelse() statement that takes the height column and returns the height if it is greater than 72 inches and returns 0 otherwise.
+
+What is the mean of the resulting vector?
+
+```{r}
+library(dslabs)
+data(heights)
+mean(ifelse(heights$height>72,heights$height,0))
+```
+
+Write a function inches_to_ft that takes a number of inches x and returns the number of feet. One foot equals 12 inches.
+
+What is inches_to_ft(144)?
+
+How many individuals in the heights dataset have a height less than 5 feet?
+
+```{r}
+inches_to_ft <- function(x){
+  x/12
+}
+inches_to_ft(144)
+
+sum(inches_to_ft(heights)$height<5)
+```
+
+Given an integer x, the factorial of x is called x! and is the product of all integers up to and including x. The factorial() function computes factorials in R. For example, factorial(4) returns 4! = 4 × 3 × 2 × 1 = 24.
+
+```{r}
+# define a vector of length m
+m <- 10
+f_n <- vector(length = m)
+
+# make a vector of factorials
+for(n in 1:m){
+f_n[n] <- factorial(n)
+}
+
+# inspect f_n
+f_n
+```
+
